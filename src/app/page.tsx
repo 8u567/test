@@ -1,33 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { ArrowsDownUpIcon, MagnifyingGlassIcon, PercentIcon } from "@phosphor-icons/react";
 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { PublicKey } from "@solana/web3.js";
+import ReferralHandler from "../components/someCode";
 
 
 export default function HomePage() {
-    const searchParams = useSearchParams();
-
-    useEffect(() => {
-        const addy = searchParams.get("referral");
-        if (!addy) return;
-
-        try {
-            const address = new PublicKey(addy);
-            sessionStorage.setItem("code", address.toBase58());
-            
-        } catch (err) {
-            console.warn("Invalid referral address", addy);
-        }
-
-    }, [searchParams]);
-
-
 
     const [address, setAddress] = useState("");
     const [action, setAction] = useState(false);
@@ -59,6 +43,7 @@ export default function HomePage() {
 
     return (
         <div className="flex-auto flex items-center justify-center">
+            <ReferralHandler />
             <div className="w-full md:w-1/3 space-y-10">
                 <div className="text-center">
                     <h1 className="uppercase text-3xl">
