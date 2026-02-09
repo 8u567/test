@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "SM";
+    src: url("/SM.ttf");
+}
+
+:root {
+    --so: #4ADE80;
+}
+
+html {
+    background: #101010;
+    color: #71717b;
+
+    font-family: "SM";
+}
+
+body {
+    background: 
+    linear-gradient(#050505, #151515);
+
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+
+    padding: 1.25rem 1rem;
+}
