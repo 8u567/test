@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 
 import { ArrowsDownUpIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
 
 import ConnectBtn from "~/components/root/connectBtn";
-import Invite from "~/components/root/referral";
+
+const Invite = dynamic(() => import("~/components/root/referral"), { ssr: false });
 
 export default function HomePage() {
     const [address, setAddress] = useState("");
