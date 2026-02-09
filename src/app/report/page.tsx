@@ -24,10 +24,9 @@ export default function ReportPage() {
         return metadata ? (0.00203928 * metadata.accounts).toFixed(4) : "0.0000";
     }, [metadata]);
 
-    function createPost(): string {
-        const text = metadata?.payer?.toString() ?? "";
-        return `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`;
-    }
+    const text = `Got ${value} $SOL, by @OrdexOfficial\ncheck out #DustBuster...\nhttps://ordex.lol/`;
+
+    const linked = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`;
 
     return (
         <div className="flex-auto flex items-center justify-center">
@@ -57,7 +56,7 @@ export default function ReportPage() {
                                     <ArrowBendDownLeftIcon size={18} />
                                 </NavBtn>
 
-                                <NavBtn dir={createPost()} external>
+                                <NavBtn dir={linked} external>
                                     <ShareNetworkIcon size={18} />
                                 </NavBtn>
                             </div>

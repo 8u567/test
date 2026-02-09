@@ -89,6 +89,11 @@ export default function AccountPage() {
         router.push("../report");
     };
 
+
+    const text = `Got ${emptyAccounts ? (emptyAccounts.length * 0.002).toFixed(4) : "0.0000"} $SOL, by @OrdexOfficial\ncheck out #DustBuster...\nhttps://ordex.lol/`;
+
+    const linked = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`;
+
     return correct ? (
         <div className="flex-auto flex items-center justify-center">
             <div className="md:w-1/3 w-full flex flex-col gap-4">
@@ -120,7 +125,7 @@ export default function AccountPage() {
                             </div>
                         </div>
                         <div className="flex gap-4 ">
-                            <NavBtn dir="https://x.com/intent/tweet?text=hi" external>
+                            <NavBtn dir={linked} external>
                                 <ShareNetworkIcon size={18} />
                             </NavBtn>
 
