@@ -13,7 +13,7 @@ interface SolanaProviderProps {
 
 export const Provider: FC<SolanaProviderProps> = ({ children }) => {
 
-    const endpoint = "https://api.devnet.solana.com";  
+    const endpoint = "https://solana-rpc.publicnode.com";  
     
     // https://solana-rpc.publicnode.com  - https://api.devnet.solana.com
 

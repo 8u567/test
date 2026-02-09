@@ -3,14 +3,10 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, TransactionSignature, Transaction, LAMPORTS_PER_SOL, SystemProgram } from "@solana/web3.js";
 import { reportJSON } from "./main";
 
-const feePrecent = 2.5;
-const refPrecent = 75;
 
-const coffee = new PublicKey("8WoLcEFWSeyiDWG2xrUhE4TePZRbKXJVCEiUfT2piMXf");
+const coffee = new PublicKey("HpSs9kD3egNgAjmHvi1HDoewzQDea2LizGANJDvGG2PE");
 
-const each = (0.00203928 / feePrecent) * LAMPORTS_PER_SOL;
-const eachRef = (0.00203928 / refPrecent) * LAMPORTS_PER_SOL;
-
+const each = 0.0002 * LAMPORTS_PER_SOL;
 
 export function useAccounts() {
     const { connection } = useConnection();
@@ -38,13 +34,13 @@ export function useAccounts() {
 
 
     async function closeAccounts(accounts: string[]): Promise<reportJSON | undefined> {
+        const invited = sessionStorage.getItem("code");
+
         if (accounts && publicKey && signAllTransactions) {
             const eachTX = 25;
             const eachSign = 100;
 
             const emptyAccounts = accounts.map((e) => new PublicKey(e));
-
-            const referred = sessionStorage.getItem("code");
 
             // Process accounts sign in chunks of 100
             for (let num = 0; num < emptyAccounts?.length; num += eachSign) {
@@ -68,29 +64,38 @@ export function useAccounts() {
                         )
                     });
 
+                    const rent = await connection.getMinimumBalanceForRentExemption(0);
+
                     // Calculate total fee for this transaction
                     const amount = each * e25.length;
-                    const refAmount = eachRef * e25.length;
 
-                    TX.add(
-                        SystemProgram.transfer({
-                            fromPubkey: publicKey,
-                            toPubkey: coffee,
-                            lamports: amount
-                        })
-                    );
+                    if (invited) {
+                        const ref = new PublicKey(invited);
 
-
-                    if (referred) {
                         TX.add(
                             SystemProgram.transfer({
                                 fromPubkey: publicKey,
-                                toPubkey: new PublicKey(referred),
-                                lamports: refAmount
+                                toPubkey: ref,
+                                lamports: ( amount * 0.75 ) + rent
+                            })
+                        );
+
+                        TX.add(
+                            SystemProgram.transfer({
+                                fromPubkey: publicKey,
+                                toPubkey: coffee,
+                                lamports: ( amount * 0.25 ) + rent
+                            })
+                        );
+                    } else {
+                        TX.add(
+                            SystemProgram.transfer({
+                                fromPubkey: publicKey,
+                                toPubkey: coffee,
+                                lamports: amount + rent
                             })
                         );
                     }
-
 
                     // Transaction metadata for each 25 accounts
                     TX.feePayer = publicKey;

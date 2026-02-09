@@ -14,17 +14,18 @@ export default function HomePage() {
     const [address, setAddress] = useState("");
     const router = useRouter();
 
+
+
     return (
         <div className="flex-auto flex items-center justify-center">
             <Invite />
             <div className="w-full md:w-1/3 space-y-10">
                 <div className="text-center">
-                    <h1 className="uppercase text-3xl">
+                    <h1 className="uppercase text-3xl text-(--so)">
                         Dust Buster
                     </h1>
-                    <p className="text-xs ">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Incidunt vitae sequi aliquid asperiores facere molestias cumque quas.
+                    <p>
+                        got dusty solana laying around !? <br /> let's reclaim that...
                     </p>
                 </div>
 
