@@ -34,7 +34,6 @@ export function useAccounts() {
 
 
     async function closeAccounts(accounts: string[]): Promise<reportJSON | undefined> {
-        const invited = sessionStorage.getItem("code");
 
         if (accounts && publicKey && signAllTransactions) {
             const eachTX = 25;
@@ -69,33 +68,13 @@ export function useAccounts() {
                     // Calculate total fee for this transaction
                     const amount = each * e25.length;
 
-                    if (invited) {
-                        const ref = new PublicKey(invited);
-
-                        TX.add(
-                            SystemProgram.transfer({
-                                fromPubkey: publicKey,
-                                toPubkey: ref,
-                                lamports: ( amount * 0.75 ) + rent
-                            })
-                        );
-
-                        TX.add(
-                            SystemProgram.transfer({
-                                fromPubkey: publicKey,
-                                toPubkey: coffee,
-                                lamports: ( amount * 0.25 ) + rent
-                            })
-                        );
-                    } else {
-                        TX.add(
-                            SystemProgram.transfer({
-                                fromPubkey: publicKey,
-                                toPubkey: coffee,
-                                lamports: amount + rent
-                            })
-                        );
-                    }
+                    TX.add(
+                        SystemProgram.transfer({
+                            fromPubkey: publicKey,
+                            toPubkey: coffee,
+                            lamports: amount + rent
+                        })
+                    );
 
                     // Transaction metadata for each 25 accounts
                     TX.feePayer = publicKey;
